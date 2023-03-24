@@ -1,0 +1,34 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.2.6.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'com.tester'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	if (Os.isFamily(Os.FAMILY_MAC)) {
+		implementation 'com.eclipsesource.j2v8:j2v8_macosx_x86_64:4.6.0'
+	} else if (Os.isFamily(Os.FAMILY_UNIX)) {
+		implementation 'com.eclipsesource.j2v8:j2v8_linux_x86_64:4.6.0'
+	}
+	implementation group: 'com.jcraft', name: 'jsch', version: '0.1.55'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'org.springframework.boot:spring-boot-starter-integration'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.integration:spring-integration-sftp'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.integration:spring-integration-test'
+	implementation 'org.apache.commons:commons-csv:1.8'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
