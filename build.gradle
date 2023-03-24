@@ -20,7 +20,7 @@ jar {
 }
 
 group = 'com.tester'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.8-SNAPSHOT'
 sourceCompatibility = '11'
 
 repositories {
@@ -41,7 +41,6 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.integration:spring-integration-test'
     implementation 'org.apache.commons:commons-csv:1.8'
-    implementation("org.projectlombok:lombok:1.16.10")
 }
 
 tasks.named('test') {

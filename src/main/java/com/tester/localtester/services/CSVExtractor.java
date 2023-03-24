@@ -24,14 +24,14 @@ import java.util.Properties;
 public class CSVExtractor {
 
 
-    public void sendEmailToList() throws IOException, MessagingException {
+    public void sendEmailToList(int id) throws IOException {
         Map<String, String> mailData = new HashMap<>();
 
 //        FileUtils fileUtils = new FileUtils();
 //        MailService mailService = new MailService();
 
         String fileDirectory = "/Users/sumitjadiya/Desktop/script/";
-        Reader dpIdFile = new FileReader(fileDirectory + "partner.csv");
+        Reader dpIdFile = new FileReader(fileDirectory + "partner"+id+".csv");
         String qrDirectory = fileDirectory + "qrcodes";
 
         String[] HEADERS = {"dpNo", "dpName", "profileId", "dpEmail", "managerName", "managerEmail"};
