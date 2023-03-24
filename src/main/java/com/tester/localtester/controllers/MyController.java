@@ -1,5 +1,7 @@
 package com.tester.localtester.controllers;
 
+import com.tester.localtester.services.CSVExtractor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,17 +11,18 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 @RestController
-@RequestMapping("/local/v1")
+@RequestMapping("/")
 public class MyController {
 
-    @GetMapping("/auth")
-    public String getAuth(@RequestHeader("Authorization") String auth) {
-        String[] authArray = auth.split(" ");
-        String authString = authArray[1];
-        byte[] decodedAuth = Base64.getDecoder().decode(authString);
-        String[] credentials = new String(decodedAuth, StandardCharsets.UTF_8).split(":");
-        String username = credentials[0];
-        String password = credentials[1];
-        return "Username: " + username + " Password: " + password;
+    @Autowired
+    CSVExtractor csvExtractor;
+
+    @GetMapping("/")
+    public void sendEmail() {
+        try {
+            csvExtractor.sendEmailToList();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 }

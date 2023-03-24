@@ -7,16 +7,16 @@ public class FileUtils {
 
     //public static void main(String[] args) {
     public String getActualFile(String fileDirectory, String key) {
+
         File folder = new File(fileDirectory);
         File[] listOfFiles = folder.listFiles();
         String fileName = null;
-        for (int i = 0; i < listOfFiles.length; i++) {
-            if (listOfFiles[i].isFile()) {
-                fileName = listOfFiles[i].getName();
-                if (fileName.contains(key)) {
+        assert listOfFiles != null;
+        for (File listOfFile : listOfFiles) {
+            if (listOfFile.isFile()) {
+                fileName = listOfFile.getName();
+                if (fileName.equals(key))
                     return fileName;
-                }
-
             }
         }
         return fileName;

@@ -6,20 +6,23 @@ import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
 import javax.mail.*;
-import javax.mail.internet.*;
-import java.io.IOException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import java.util.Map;
 import java.util.Properties;
 
 public class MailService {
 
-    public void sendMail(Map emailData) {
+    public void sendMail(Map<String, String> emailData) {
         final String username = "no-reply@turtlefin.com";
         final String password = "25@Feb2021";
 
-        String file = (String) emailData.get("file");
-        String fileName = (String) emailData.get("fileName");
-        String toEmail = (String) emailData.get("recipientEmails");
+        String file = emailData.get("file");
+        String fileName = emailData.get("fileName");
+        String toEmail = emailData.get("recipientEmails");
+        String managerEmail = emailData.get("managerEmail");
 
         DataSource source = new FileDataSource(file);
 
@@ -56,13 +59,18 @@ public class MailService {
                 });
 
         try {
-
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(username));
             message.setRecipients(
                     Message.RecipientType.TO,
                     InternetAddress.parse(toEmail)
             );
+            if (!managerEmail.trim().equals("0")) {
+                message.setRecipients(
+                        Message.RecipientType.CC,
+                        InternetAddress.parse(managerEmail)
+                );
+            }
             message.setSubject(emailSubject);
             BodyPart messageBodyPart = new MimeBodyPart();
             messageBodyPart.setContent(emailBody, "text/html");
@@ -77,12 +85,10 @@ public class MailService {
             message.setContent(multipart);
             Transport.send(message);
 
-            System.out.println("Email sent to : "+fileName);
+            System.out.println("Email sent to dpNo: " + fileName + " - EmailId: " + toEmail + " - managerEmail: " + managerEmail);
 
         } catch (MessagingException e) {
             e.printStackTrace();
-        } catch (AddressException e) {
-            throw new RuntimeException(e);
         } catch (javax.mail.MessagingException e) {
             throw new RuntimeException(e);
         }
