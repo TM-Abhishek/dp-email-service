@@ -16,8 +16,8 @@ public class Xtest {
 
         Map<String, String> mailData = new HashMap<>();
 
-        String fileDirectory = "/Users/sumitjadiya/Desktop/script/";
-        Reader csvFile = new FileReader(fileDirectory + "wellness.csv");
+        String fileDirectory = "/Users/abhishekjaiswal/Desktop/Turtlemint/dp-email-service/";
+        Reader csvFile = new FileReader(fileDirectory + "wellness-2.csv");
 
         String[] HEADERS = {
                 "Pincode",
