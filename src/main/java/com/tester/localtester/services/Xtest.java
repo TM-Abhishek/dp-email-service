@@ -97,6 +97,7 @@ public class Xtest {
             plans = new HashMap<>();
             ekinCareItems = new HashMap<>();
             healthAssureItems = new HashMap<>();
+            svaasItems = new HashMap<>();
 
             lists.add(model);
         }
