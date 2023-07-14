@@ -109,7 +109,6 @@ public class Xtest_modified {
         pw.println("use turtlefin");
 
         for (var val : lists) {
-            System.out.println(val.getPlans());
             pw.println("db.wellnessPlansList.update(");
             line = "{\"pincode\":\"" + val.getPincode() + "\"},{ $set:" + val.getPlans()+ "}";
             line = line.replace("=", ":");
