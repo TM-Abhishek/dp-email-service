@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Xtest {
+public class Xtest_modified {
 
     public static void main(String[] args) throws IOException {
 
@@ -59,7 +59,7 @@ public class Xtest {
         List<XtestModel> lists = new ArrayList<>();
 
         System.out.println("use turtlefin");
-        System.out.println("db.wellnessTestXYZ.insertMany([");
+        System.out.println("wellnessPlansList.update(");
 
         for (CSVRecord record : records) {
             XtestModel model = new XtestModel();
@@ -101,24 +101,20 @@ public class Xtest {
 
             lists.add(model);
         }
-
-//        for (var val : lists) {
-//            System.out.println("{\"pincode\":\"" + val.getPincode() + "\", \"plans\":" + val.getPlans()+"},");
-//        }
         System.out.println("]);");
 
         File tempFile = new File(fileDirectory + "tempfile.json");
         PrintWriter pw = new PrintWriter(new FileWriter(tempFile));
         String line = null;
-        pw.println("use turtlefin;");
-        pw.println("db.wellnessTestXYZ.insertMany([");
+        pw.println("use turtlefin");
 
         for (var val : lists) {
-            line = "{\"pincode\":\"" + val.getPincode() + "\", \"plans\":" + val.getPlans() + "},";
+            pw.println("db.wellnessPlansList.update(");
+            line = "{\"pincode\":\"" + val.getPincode() + "\"},{ $set:" + val.getPlans()+ "}";
             line = line.replace("=", ":");
-            line = line.replace("ekinCare", "\"ekinCare\"");
-            line = line.replace("svaas", "\"svaas\"");
-            line = line.replace("healthAssure", "\"healthAssure\"");
+            line = line.replace("ekinCare", "\"plans.ekinCare\"");
+            line = line.replace("svaas", "\"plans.svaas\"");
+            line = line.replace("healthAssure", "\"plans.healthAssure\"");
 
             line = line.replace("acti_Health_Plus", "\"acti_Health_Plus\"");
             line = line.replace("acti_Health:", "\"acti_Health\":");
@@ -132,9 +128,8 @@ public class Xtest {
             line = line.replace(svaasOPDPlusConstant, "\"opd_Plus\"");
             line = line.replace(svaasOPDHeroConstant, "\"opd_Hero\"");
             pw.println(line);
+            pw.println(",{upsert: true});");
         }
-        pw.println("]);");
-
         pw.flush();
     }
 }
